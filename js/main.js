@@ -1,42 +1,26 @@
-$(document).ready(function (){
+$(document).ready(function(){
+  // Add scrollspy to <body>
+  $('body').scrollspy({target: ".navbar", offset: 50});
 
-$('a[href*="#"]:not([href="#"])').click(function() {
-    
-  if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-    var target = $(this.hash);
-    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-    if (target.length) {
+  // Add smooth scrolling on all links inside the navbar
+  $("#myNavbar a").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
       $('html, body').animate({
-        scrollTop: target.offset().top
-      }, 1000);
-      return false;
-    }
-  }
-});
-// create a LatLng object containing the coordinate for the center of the map
-var latlng = new google.maps.LatLng(-33.86455, 151.209);
-// prepare the map properties
-var options = {
-zoom: 15,
-center: latlng,
-mapTypeId: google.maps.MapTypeId.ROADMAP,
-navigationControl: true,
-mapTypeControl: false,
-scrollwheel: false,
-disableDoubleClickZoom: true
-};
-// initialize the map object
-var map = new google.maps.Map(document.getElementById('google_map'), options);
-// add Marker
-var marker1 = new google.maps.Marker({
-position: latlng, map: map
-});
-// add listener for a click on the pin
-google.maps.event.addListener(marker1, 'click', function() {
-infowindow.open(map, marker1);
-});
-// add information window
-var infowindow = new google.maps.InfoWindow({
-content:  '<div class="info"><strong>This is my company</strong><br><br>My company address is here<br> 32846 Sydney</div>'
-});  
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    }  // End if
+  });
 });
